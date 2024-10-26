@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.HttpURLConnection; 
 
 import triviaClash.Data.RequestMethod;
+import triviaClash.Data.CommandMode; 
 
 import org.json.JSONObject; 
 
@@ -16,15 +17,13 @@ public class ConnectionManager {
     private JSONObject jsonData; 
     private HttpURLConnection connection;
     private int responseCode; 
+    private boolean connected = false;
 
     public HttpURLConnection connect(String url, RequestMethod method) {
         try {
             this.url = new URL(url);
             connection = (HttpURLConnection) this.url.openConnection();
             switch(method) {
-                case GET:
-                    connection.setRequestMethod("GET");
-                    break;
                 case POST:
                     connection.setRequestMethod("POST");
                     break;
@@ -36,6 +35,7 @@ public class ConnectionManager {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String inputLine;
+                this.connected = true;
                 StringBuilder response = new StringBuilder();
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
@@ -44,12 +44,17 @@ public class ConnectionManager {
                 jsonData = new JSONObject(response.toString());
             }
         } catch(Exception e) {
-            System.out.println("Connection error !!");
+            OutputManager.SOP("Sorry, connection failed with the following error...\n", CommandMode.CMD_LINE);
+            e.printStackTrace();
         }
         return connection;
     }
 
     public JSONObject getJsonData() {
         return jsonData;
+    }
+
+    public boolean isConnected() {
+        return this.connected;
     }
 }
