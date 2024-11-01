@@ -4,18 +4,20 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 import triviaClash.Data.GameData.MainUI;
-import triviaClash.Data.GameData.QuestionInterface;
+import triviaClash.Data.GameData.QuestionData;
 import triviaClash.Data.GameData.GameMode;
 import triviaClash.utilities.QueryManager;
+import triviaClash.utilities.OutputManager;
 
 public class Game {
     private String sessionToken = "";
-    private ArrayList<QuestionInterface> questions;
+    private ArrayList<QuestionData> questions;
     private ArrayList<ArrayList<String>> options;
     private GameMode mode; 
     private QueryManager manager;
-    
+ 
     public void startGame() {
+        OutputManager.clear();
         MainUI ui = new MainUI();
         switch(ui.getChoice()) {
             case 1: 
@@ -32,10 +34,8 @@ public class Game {
             case 4:
                 System.out.println("Thanks for playing, exitting the game..");
                 System.exit(0);
-        }
-
-        getSessionToken();
-        
+        } 
+        getSessionToken();  
     }
 
     private void getSessionToken() {
