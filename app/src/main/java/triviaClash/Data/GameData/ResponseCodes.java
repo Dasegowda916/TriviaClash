@@ -1,0 +1,10 @@
+package triviaClash.Data.GameData;
+
+public enum ResponseCodes {
+    RESPONSE_SUCCESS,
+    RESPONSE_NO_RESULTS,
+    RESPONSE_INVALID_PARAMETER,
+    RESPONSE_TOKEN_NOT_FOUND,
+    RESPONSE_TOKEN_EMPTY,
+    RESPONSE_RATE_LIMIT
+}
