@@ -16,4 +16,8 @@ public class OutputManager {
                 System.err.println("GUI integration required to use this mode!!");
         }
     }
+
+    public static void clear() {
+        System.out.print("\u001b[H\u001b[2J");
+    }
 }

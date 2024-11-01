@@ -3,7 +3,7 @@ package triviaClash.utilities;
 import java.io.BufferedReader;
 import java.io.IOException; 
 import java.io.InputStreamReader;
-import java.net.URL; 
+import java.net.URI; 
 import java.net.HttpURLConnection; 
 
 import triviaClash.Data.GameData.ResponseCodes;
@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 public class ConnectionManager {
     
-    private URL url;
+    private URI uri;
     private JSONObject jsonData; 
     private HttpURLConnection connection;
     private int responseCode; 
@@ -22,8 +22,8 @@ public class ConnectionManager {
 
     public HttpURLConnection connect(String url, RequestMethod method) {
         try {
-            this.url = new URL(url);
-            connection = (HttpURLConnection) this.url.openConnection();
+            uri = new URI(url);
+            connection = (HttpURLConnection) this.uri.toURL().openConnection();
             connection.setRequestMethod(method.name());
             responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
