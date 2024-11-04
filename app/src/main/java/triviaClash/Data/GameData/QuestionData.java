@@ -1,7 +1,6 @@
 package triviaClash.Data.GameData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class QuestionData {
     private String questionString;

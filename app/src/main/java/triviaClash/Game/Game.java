@@ -1,8 +1,8 @@
 package triviaClash.Game;
 
-import java.util.Scanner; 
 import java.util.ArrayList;
 
+import triviaClash.Data.GameData.CategoriesUI;
 import triviaClash.Data.GameData.MainUI;
 import triviaClash.Data.GameData.QuestionData;
 import triviaClash.Data.GameData.GameMode;
@@ -35,8 +35,13 @@ public class Game {
                 System.out.println("Thanks for playing, exitting the game..");
                 System.exit(0);
         } 
-        getSessionToken();  
+
+        if(mode == GameMode.SINGLE_PLAYER) {
+            getSessionToken();
+            new CategoriesUI();
+        }  
     }
+
 
     private void getSessionToken() {
         manager = new QueryManager();
