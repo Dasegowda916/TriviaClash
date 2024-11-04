@@ -1,13 +1,11 @@
 package triviaClash.utilities;
 
-import java.util.ArrayList; 
 import java.util.HashMap; 
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import triviaClash.utilities.ConnectionManager;
 import triviaClash.Data.RequestMethod;
 
 public class QueryManager {
@@ -15,14 +13,16 @@ public class QueryManager {
     private static String sessionToken = ""; 
     private ConnectionManager manager = new ConnectionManager();
     
-    public Map<Integer, String> getCategories() {
-        Map<Integer, String> categories = new HashMap<Integer, String>();
+    public Map<Integer,Map<Integer, String>> getCategories() {
+        Map<Integer, Map<Integer, String>> categories = new HashMap<Integer, Map<Integer, String>>();
         manager.connect("https://opentdb.com/api_category.php",RequestMethod.GET);
         JSONArray myArray = manager.getJsonData().getJSONArray("trivia_categories");
         JSONObject obj;
         for(int i = 0; i < myArray.length(); i++) {
+            Map<Integer, String> temp = new HashMap<Integer, String>();
             obj = myArray.getJSONObject(i);
-            categories.put(obj.getInt("id"), obj.getString("name"));
+            temp.put(obj.getInt("id"), obj.getString("name"));
+            categories.put(i+1, temp);
         }
 
         return categories;
@@ -36,10 +36,11 @@ public class QueryManager {
         return sessionToken;
     }
 
-    public String getQueryString(int amount, int category, String token) {
+    public String getQueryString(int amount, int category, String token, String difficulty) {
         StringBuilder temp = new StringBuilder("https://opentdb.com/api.php?");
         temp.append("amount="+amount+"&");
-        temp.append("category="+category);
+        temp.append("category="+category+"&");
+        temp.append("difficulty="+difficulty);
         finalQueryString = temp.toString();
         return finalQueryString;
     }
