@@ -26,7 +26,7 @@ build_jar() {
 copy_jar() {
     echo ""
     echo " Copying the jar file to $DIRS_PATH ..."
-    return $(cp "$JAR_FILE_OUTPUT_PATH/app.jar" "$DIRS_PATH/TriviaClash.jar"; echo $?)
+    return $(cp "$JAR_FILE_OUTPUT_PATH/app-all.jar" "$DIRS_PATH/TriviaClash.jar"; echo $?)
 }
 
 create_dirs && build_jar && copy_jar
