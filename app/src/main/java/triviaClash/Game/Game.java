@@ -15,9 +15,11 @@ public class Game {
     private ArrayList<ArrayList<String>> options;
     private GameMode mode; 
     private QueryManager manager;
- 
+    private String notifierMessage = "";
+
     public void startGame() {
         OutputManager.clear();
+            notifier("Check your internet connection !!");
         MainUI ui = new MainUI();
         switch(ui.getChoice()) {
             case 1: 
@@ -38,6 +40,10 @@ public class Game {
 
         if(mode == GameMode.SINGLE_PLAYER) {
             getSessionToken();
+            if(sessionToken == "") {
+                notifierMessage = "Check your internet connection and try again !!";
+                startGame();
+            }
             new CategoriesUI();
         }  
     }
@@ -46,5 +52,11 @@ public class Game {
     private void getSessionToken() {
         manager = new QueryManager();
         sessionToken = manager.getSessionToken();       
+    }
+
+    private void notifier (String message) {
+        if ( notifierMessage != "" ) {
+            System.out.println("ALERT!! Check your internet connection."); 
+        } 
     }
 }

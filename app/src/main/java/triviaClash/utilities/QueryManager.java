@@ -15,22 +15,22 @@ public class QueryManager {
     
     public Map<Integer,Map<Integer, String>> getCategories() {
         Map<Integer, Map<Integer, String>> categories = new HashMap<Integer, Map<Integer, String>>();
-        manager.connect("https://opentdb.com/api_category.php",RequestMethod.GET);
-        JSONArray myArray = manager.getJsonData().getJSONArray("trivia_categories");
-        JSONObject obj;
-        for(int i = 0; i < myArray.length(); i++) {
-            Map<Integer, String> temp = new HashMap<Integer, String>();
-            obj = myArray.getJSONObject(i);
-            temp.put(obj.getInt("id"), obj.getString("name"));
-            categories.put(i+1, temp);
-        }
+        if(manager.connect("https://opentdb.com/api_category.php",RequestMethod.GET)) {
+            JSONArray myArray = manager.getJsonData().getJSONArray("trivia_categories");
+            JSONObject obj;
+            for(int i = 0; i < myArray.length(); i++) {
+                Map<Integer, String> temp = new HashMap<Integer, String>();
+                obj = myArray.getJSONObject(i);
+                temp.put(obj.getInt("id"), obj.getString("name"));
+                categories.put(i+1, temp);
+            }
 
+        }
         return categories;
     }
 
     public String getSessionToken() {
-        if(sessionToken == "") {
-            manager.connect("https://opentdb.com/api_token.php?command=request",RequestMethod.GET); 
+        if(sessionToken == "" && manager.connect("https://opentdb.com/api_token.php?command=request",RequestMethod.GET)) { 
             sessionToken =  manager.getJsonData().getString("token"); 
         }
         return sessionToken;

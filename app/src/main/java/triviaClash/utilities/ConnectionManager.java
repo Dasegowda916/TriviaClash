@@ -23,22 +23,26 @@ public class ConnectionManager {
             connection = (HttpURLConnection) this.uri.toURL().openConnection();
             connection.setRequestMethod(method.name());
             responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                connected = true;
-                System.out.printf("\n\n> HTTP Connection successful, Response code : %d \n\n", responseCode);
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                this.connected = true;
-                StringBuilder response = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-                jsonData = new JSONObject(response.toString());
+            switch (responseCode) {
+                case HttpURLConnection.HTTP_OK:
+                    connected = true;
+                    System.out.printf("\n\n> HTTP Connection successful, Response code : %d \n\n", responseCode);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String inputLine;
+                    this.connected = true;
+                    StringBuilder response = new StringBuilder();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+                    jsonData = new JSONObject(response.toString());
+                    break;
+                default:
+                    System.out.println("Connection failed!");
             }
         } catch(Exception e) {
-            OutputManager.SOP("Sorry, connection failed with the following error...\n", CommandMode.CMD_LINE);
-            e.printStackTrace();
+            OutputManager.SOP("Looks like you are offline.\n", CommandMode.CMD_LINE);
+            //e.printStackTrace();
         } 
 
         if(connected) {
